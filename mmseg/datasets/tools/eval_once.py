@@ -51,7 +51,7 @@ class LaneEval:
     @staticmethod
     def file_parser(gt_root_path, pred_root_path):
         gt_files_list = glob.glob(os.path.join(gt_root_path, '*', 'cam01', '*.json'))
-        pred_files_list = glob.glob(os.path.join(pred_root_path, '*', 'cam01', '*.json'))
+        pred_files_list = glob.glob(os.path.join(pred_root_path,'raw_data', '*', 'cam01', '*.json'))
         gt_files_list.sort()
         pred_files_list.sort()
         assert(len(gt_files_list) == len(pred_files_list) and len(gt_files_list) > 0)
@@ -92,11 +92,10 @@ class LaneEval:
         score_num = int((score_h - score_l) / score_step)
         test_cfg['score_num'] = score_num
 
-        tempfile.tempdir = '/dev/shm'
+        tempfile.tempdir = './dev/shm/'
         tmp_dir = tempfile.mkdtemp()
         if not os.path.exists(tmp_dir):
             os.mkdir(tmp_dir)
-
         evaluate_results = evaluate_list(gt_files_list, pred_files_list, test_cfg)
         gt_all = evaluate_results['gt_all']
         pr_all = evaluate_results['pr_all']

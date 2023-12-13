@@ -50,7 +50,6 @@ def test_once(model,
     results = []
     dataset = data_loader.dataset
     loader_indices = data_loader.batch_sampler
-
     pred_dir = osp.join(out_dir, 'lane3d_prediction')
     
     print("testing model...")
@@ -60,12 +59,13 @@ def test_once(model,
             for output in outputs['proposals_list']:
                 result = postprocess(output, anchor_len=dataset.anchor_len)
                 results.append(result)
-        
+
     dataset.format_results(results, pred_dir)
 
     # evaluating
     if eval:
         print("evaluating results...")
+
         test_result = dataset.eval(pred_dir)
         print("save test result to", osp.join(out_dir, 'evaluation_result.csv'))
         with open(osp.join(out_dir, 'evaluation_result.csv'), 'w') as f:

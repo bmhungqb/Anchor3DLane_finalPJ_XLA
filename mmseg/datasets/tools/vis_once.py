@@ -54,7 +54,7 @@ class LaneVis(object):
         self.R_g2c = db.R_g2c
 
     def vis(self, gt, pred, save_dir, img_dir, img_name, prob_th=0.5):
-        img_path = os.path.join(img_dir, 'raw_data', 'data', img_name)
+        img_path = os.path.join(img_dir, img_name)
         print("img_path", img_path)
         fig = plt.figure()
         ax1 = fig.add_subplot(131)
@@ -180,7 +180,7 @@ class LaneVis(object):
         ax3.locator_params(nbins=5, axis='x')
         ax3.locator_params(nbins=10, axis='z')
         ax3.tick_params(pad=18, labelsize=15)
-        fig.savefig(ops.join(save_dir, img_name.replace("/", "_")))
+        fig.savefig(ops.join(save_dir, img_name.split('\\')[1].replace("/", "_")))
         plt.close(fig)
         print('processed sample: {}'.format(img_name))
 
@@ -196,7 +196,7 @@ class LaneVis(object):
             if i % vis_step != 0:
                 continue
             raw_file = pred['file_path']
-            gt = gts[raw_file.split('.')[0]]
+            gt = gts[raw_file.split('.')[0].split('\\')[1]]
             self.vis(gt, pred, save_dir, img_dir, raw_file)
 
     def projective_transformation(self, Matrix, x, y, z):

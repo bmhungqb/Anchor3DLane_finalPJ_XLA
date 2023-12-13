@@ -41,7 +41,7 @@ def parse_args():
         'useful when you want to format the result to a specific format and '
         'submit it to the test server')
     parser.add_argument('--show', action='store_true', help='show results')
-    parser.add_argument('--eval', action='store_true', help='show results', default=True)
+    parser.add_argument('--eval', action='store_true', help='show results', default=False)
     parser.add_argument(
         '--show-dir', help='directory where painted images will be saved')
     parser.add_argument(
@@ -155,6 +155,7 @@ def main():
     rank, _ = get_dist_info()
 
     dataset = build_dataset(cfg.data.test)
+
     # The default loader config
     loader_cfg = dict(
         # cfg.gpus will be ignored if distributed
@@ -181,7 +182,7 @@ def main():
     # build the model and load checkpoint
     model = build_lanedetector(cfg.model)
     checkpoint = load_checkpoint(model, args.checkpoint, map_location='cpu')
-    print(model)
+    # print(model)
     
 
     # clean gpu memory when starting a new evaluation.
